@@ -32,8 +32,8 @@ public class UserMealsUtilTest {
     @Test
     public void getFilteredWithExceededTest() {
         List<UserMealWithExceed> expectedUserMealWithExceed = Arrays.asList(
-                new UserMealWithExceed(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500, true),
-                new UserMealWithExceed(LocalDateTime.of(2015, Month.MAY, 31, 10, 0), "Завтрак", 1000, false)
+                new UserMealWithExceed(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500, false),
+                new UserMealWithExceed(LocalDateTime.of(2015, Month.MAY, 31, 10, 0), "Завтрак", 1000, true)
         );
         assertEquals(expectedUserMealWithExceed, UserMealsUtil.getFilteredWithExceeded(mealList, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000));
         assertEquals(expectedUserMealWithExceed, UserMealsUtil.getFilteredWithExceededUsingLoops(mealList, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000));
