@@ -34,8 +34,6 @@ public class MealRestController {
 
     public List<MealTo> getFiltered(String startDate, String endDate, String startTime, String endTime) {
         log.info("getFiltered");
-
-
         return service.getFiltered(authUserId(),
                 (startDate == "" || startDate == null) ? LocalDate.MIN : LocalDate.parse(startDate),
                 (endDate == "" || endDate == null) ? LocalDate.MAX : LocalDate.parse(endDate),
@@ -51,7 +49,7 @@ public class MealRestController {
     public Meal create(Meal meal) {
         log.info("create {}", meal);
         checkNew(meal);
-        return service.create(meal);
+        return service.create(meal, authUserId());
     }
 
     public void delete(int id) {
@@ -62,7 +60,7 @@ public class MealRestController {
     public void update(Meal meal, int id) {
         log.info("update {} with id={}", meal, id);
         assureIdConsistent(meal, id);
-        service.update(meal);
+        service.update(meal, authUserId());
     }
 
 }

@@ -18,14 +18,28 @@ import java.util.stream.Collectors;
 import static java.util.stream.Collectors.toList;
 
 public class MealsUtil {
-    public static final List<Meal> MEALS = Arrays.asList(
-            new Meal(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500, 1),
-            new Meal(LocalDateTime.of(2015, Month.MAY, 30, 13, 0), "Обед", 1000, 1),
-            new Meal(LocalDateTime.of(2015, Month.MAY, 30, 20, 0), "Ужин", 500, 1),
-            new Meal(LocalDateTime.of(2015, Month.MAY, 31, 10, 0), "Завтрак", 1000, 1),
-            new Meal(LocalDateTime.of(2015, Month.MAY, 31, 13, 0), "Обед", 500, 1),
-            new Meal(LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510, 1)
+    public static final List<Meal> MEALS_USER1 = Arrays.asList(
+            new Meal(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500),
+            new Meal(LocalDateTime.of(2015, Month.MAY, 30, 13, 0), "Обед", 1000),
+            new Meal(LocalDateTime.of(2015, Month.MAY, 30, 20, 0), "Ужин", 500),
+            new Meal(LocalDateTime.of(2015, Month.MAY, 31, 10, 0), "Завтрак", 1000),
+            new Meal(LocalDateTime.of(2015, Month.MAY, 31, 13, 0), "Обед", 500),
+            new Meal(LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510)
     );
+
+    public static final List<Meal> MEALS_USER2 = Arrays.asList(
+            new Meal(LocalDateTime.of(2016, Month.MAY, 30, 10, 0), "Завтрак", 500),
+            new Meal(LocalDateTime.of(2016, Month.MAY, 30, 13, 0), "Обед", 1000),
+            new Meal(LocalDateTime.of(2016, Month.MAY, 30, 20, 0), "Ужин", 500),
+            new Meal(LocalDateTime.of(2016, Month.MAY, 31, 10, 0), "Завтрак", 1000),
+            new Meal(LocalDateTime.of(2016, Month.MAY, 31, 13, 0), "Обед", 500),
+            new Meal(LocalDateTime.of(2016, Month.MAY, 31, 20, 0), "Ужин", 510)
+    );
+
+
+    public static <T extends Comparable<T>> boolean isBetween(T lt, T start, T end) {
+        return lt.compareTo(start) >= 0 && lt.compareTo(end) <= 0;
+    }
 
     public static final int DEFAULT_CALORIES_PER_DAY = 2000;
 
@@ -33,8 +47,8 @@ public class MealsUtil {
         return getFilteredWithExcess(meals, caloriesPerDay, meal -> true);
     }
 
-    public static List<MealTo> getFilteredWithExcess(Collection<Meal> meals, int caloriesPerDay, LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime) {
-        return getFilteredWithExcess(meals, caloriesPerDay, meal -> DateTimeUtil.isBetween(meal.getDate(), startDate, endDate) && DateTimeUtil.isBetween(meal.getTime(), startTime, endTime));
+    public static List<MealTo> getFilteredWithExcess(Collection<Meal> meals, int caloriesPerDay, LocalTime startTime, LocalTime endTime) {
+        return getFilteredWithExcess(meals, caloriesPerDay, meal -> isBetween(meal.getTime(), startTime, endTime));
     }
 
     private static List<MealTo> getFilteredWithExcess(Collection<Meal> meals, int caloriesPerDay, Predicate<Meal> filter) {

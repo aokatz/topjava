@@ -9,13 +9,13 @@ import java.time.LocalTime;
 import java.util.List;
 
 public interface MealService {
-    Meal create(Meal meal);
+    Meal create(Meal meal, Integer userId);
 
     void delete(int id, int userId) throws NotFoundException;
 
     Meal get(int id, int userId) throws NotFoundException;
 
-    void update(Meal meal);
+    void update(Meal meal, Integer userId);
 
     List<Meal> getAll(int userId);
 

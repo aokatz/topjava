@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFound;
 import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
@@ -26,8 +27,8 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    public Meal create(Meal meal) {
-        return repository.save(meal);
+    public Meal create(Meal meal, Integer userId) {
+        return repository.save(meal, userId);
     }
 
     @Override
@@ -41,17 +42,21 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    public void update(Meal meal) {
-        checkNotFoundWithId(repository.save(meal), meal.getId());
+    public void update(Meal meal, Integer userId) {
+        checkNotFoundWithId(repository.save(meal, userId), meal.getId());
     }
 
     @Override
     public List<Meal> getAll(int userId) {
-        return repository.getAll(userId);
+        return checkNotFound(repository.getAll(userId), "userId =" + userId);
     }
 
     @Override
     public List<MealTo> getFiltered(int userId, LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime) {
-        return MealsUtil.getFilteredWithExcess(getAll(userId), MealsUtil.DEFAULT_CALORIES_PER_DAY, startDate, endDate, startTime, endTime);
+        List<Meal> meals = checkNotFound(repository.getFiltered(userId, startDate, endDate),
+                "userId =" + userId);
+        return MealsUtil.getFilteredWithExcess(meals, MealsUtil.DEFAULT_CALORIES_PER_DAY, startTime, endTime);
+
+
     }
 }
