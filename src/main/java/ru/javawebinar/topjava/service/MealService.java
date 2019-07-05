@@ -36,7 +36,9 @@ public class MealService {
         return getBetweenDateTimes(adjustStartDateTime(startDate), adjustEndDateTime(endDate), userId);
     }
 
-    public List<Meal> getBetweenDateTimes(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
+    private List<Meal> getBetweenDateTimes(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
+        Assert.notNull(startDateTime, "startDateTime must not be null");
+        Assert.notNull(endDateTime, "endDateTime  must not be null");
         return repository.getBetween(startDateTime, endDateTime, userId);
     }
 
