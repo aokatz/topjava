@@ -33,6 +33,9 @@ abstract public class AbstractServiceTest {
     //    https://dzone.com/articles/applying-new-jdk-11-string-methods
     private static String DELIM = "-".repeat(103);
 
+    @Autowired
+    public Environment env;
+
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
