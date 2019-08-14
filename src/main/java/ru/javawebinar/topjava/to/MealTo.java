@@ -1,15 +1,24 @@
 package ru.javawebinar.topjava.to;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class MealTo extends BaseTo {
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @PastOrPresent
+    @NotNull
     private LocalDateTime dateTime;
 
+    @Size(min = 2, max = 120, message = "length must be between 2 and 120 characters")
     private String description;
 
-    private int calories;
+    @NotNull
+    @Positive
+    private Integer calories;
 
     private boolean excess;
 
@@ -21,6 +30,22 @@ public class MealTo extends BaseTo {
         this.dateTime = dateTime;
         this.description = description;
         this.calories = calories;
+        this.excess = excess;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setCalories(Integer calories) {
+        this.calories = calories;
+    }
+
+    public void setExcess(boolean excess) {
         this.excess = excess;
     }
 
@@ -45,8 +70,8 @@ public class MealTo extends BaseTo {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MealTo that = (MealTo) o;
-        return calories == that.calories &&
-                excess == that.excess &&
+        return  excess == that.excess &&
+                Objects.equals(calories, that.calories) &&
                 Objects.equals(id, that.id) &&
                 Objects.equals(dateTime, that.dateTime) &&
                 Objects.equals(description, that.description);
